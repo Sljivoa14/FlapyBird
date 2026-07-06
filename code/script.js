@@ -28,7 +28,8 @@ let gameOver = false;
 let bestScore = 0;
 
 function drawBird(x, y){
-
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(50, birdY, birdSize, birdSize);
 }
 
 function resetGame() {
