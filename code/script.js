@@ -29,7 +29,18 @@ let bestScore = 0;
 
 function drawBird(x, y){
     ctx.fillStyle = 'yellow';
-    ctx.fillRect(50, birdY, birdSize, birdSize);
+    ctx.fillRect(50, y, birdSize, birdSize);
+}
+
+function addPipe(){
+    const topHight = Math.random()* (height - pipeHeight - 120) + 40;
+
+    pipesPush({
+        x: width,
+        top: topHight,
+        bottom: topHight + pipeGap,
+        passed: false,
+});
 }
 
 function resetGame() {
@@ -45,3 +56,11 @@ function resetGame() {
   gameOver = false;
   loop();
 }
+
+document.addEventListener('keydown', event =>{
+    if(event.key.toLowerCase() === 'w'){
+        bird.velocity = flapStrenhgth;
+    }else{
+        bird.velocity = 0;
+    }
+})
