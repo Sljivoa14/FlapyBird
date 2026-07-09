@@ -57,10 +57,28 @@ function resetGame() {
   loop();
 }
 
-document.addEventListener('keydown', event =>{
-    if(event.key.toLowerCase() === 'w'){
-        bird.velocity = flapStrenhgth;
-    }else{
-        bird.velocity = 0;
+document.addEventListener('keydown', event => {
+  if (event.key.toLowerCase() === 'w') {
+    if (gameOver) {
+      resetGame();
+    } else {
+      bird.velocity = flapStrength;
     }
-})
+  }
+
+  if (event.key.toLowerCase() === 's') {
+    bird.y += 6;
+  }
+
+  if (event.key.toLowerCase() === 'a') {
+    bird.x = Math.max(bird.radius, bird.x - moveSpeed);
+  }
+
+  if (event.key.toLowerCase() === 'd') {
+    bird.x = Math.min(width - bird.radius, bird.x + moveSpeed);
+  }
+});
+
+resetBtn.addEventListener('click', resetGame);
+
+resetGame();
