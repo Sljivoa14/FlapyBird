@@ -83,7 +83,16 @@ function drawHUD(){
     ctx.fillText(`Best: ${bestScore}`, 18, 56);
 
     if(gameOver){
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+        ctx.fillRect(0, height / 2 - 52, width, 104);
 
+        ctx.fillStyle = '#f8f8f8';
+        ctx.font = '24px monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('GAME OVER', width / 2, height / 2 - 6);
+        ctx.font = '16px monospace';
+        ctx.fillText('Press reset or W to play again', width / 2, height / 2 + 24);
+        ctx.textAlign = 'left';
     }
 }
 
@@ -94,6 +103,11 @@ function checkColsion(pipe){
     const withinBottom = bird.y + bird.radius > pipe.bottom;
     return withinX && (withinTop || withinBottom);
 }
+
+function update() {
+    
+}
+
 
 //reset game
 function resetGame(){
