@@ -105,9 +105,70 @@ function checkColsion(pipe){
 }
 
 function update() {
-    
+    if (gameOver) return;
+
+  bird.velocity += gravity;
+  bird.y += bird.velocity;
+
+  if (bird.y + bird.radius >= height) {
+    bird.y = height - bird.radius;
+    gameOver = true;
+  }
+
+  if (bird.y - bird.radius <= 0) {
+    bird.y = bird.radius;
+    bird.velocity = 0;
+  }
+
+  frame += 1;
+  if (frame % pipeInterval === 0) {
+    addPipe();
+  }
+
+ pipes.forEach(pipe => {
+    pipe.x -= pipeSpeed;
+
+    if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+      pipe.passed = true;
+      score += 1;
+      bestScore = Math.max(bestScore, score);
+    }
+
+    if (checkCollision(pipe)) {
+      gameOver = true;
+    }
+  });
+
+  pipes = pipes.filter(pipe => pipe.x + pipeWidth > -20);
 }
 
+function drawBackground(){
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, '#09001e');
+    gradient.addColorStop(1, '#13033c');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    for (let y = 0; y < height; y += 24) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+}
+
+function loop (){
+    ctx.clearRect(0, 0, width, length);
+    drawBackground();
+    drawPipes();
+    drawBird();
+    drawHUD();
+    update();
+    if(gameOver){
+        requestAnimationFrame(loop);
+    }
+}
 
 //reset game
 function resetGame(){
